@@ -1,8 +1,10 @@
 # Atlas demo running on top of HTTP example
-* uses https
-* reports dummy temperature value to dweet.io every five seconds
+* uses http
+* reports dummy temperature value to dweet.io every three seconds
 * uses MAC address of nrf52840 to construct dweet address
-* address reported over serial terminal at program beginning 
+* address reported over serial terminal at program beginning
+* LED is solid ON until cellular network connection is complete
+* LED flashes five times per transmission and is off otherwise 
 
 ## HTTP/HTTPS example for Mbed OS 5
 
