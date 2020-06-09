@@ -3,6 +3,7 @@
         "main-stack-size": {
             "value": 8192
         }
+        
     },
     "macros": [
         "MBEDTLS_MPI_MAX_SIZE=1024",
@@ -22,12 +23,13 @@
             "mbed-http.http-buffer-size": 2048,
             "nsapi.default-wifi-security": "WPA_WPA2",
             "nsapi.default-wifi-ssid": "\"SSID\"",
-            "nsapi.default-wifi-password": "\"Password\""
+            "nsapi.default-wifi-password": "\"Password\"",
+            "cellular.debug-at": true
         },
         "DISCO_L475VG_IOT01A": {
             "target.network-default-interface-type" : "WIFI"
         },
-        "EP_AGORA": {
+        "EP_ATLAS": {
             "drivers.uart-serial-rxbuf-size"                : 1024,
             "drivers.uart-serial-txbuf-size"                : 1024,
             "lwip.ipv4-enabled"                             : true,
@@ -37,7 +39,7 @@
             "lwip.ethernet-enabled"                         : false,
             "lwip.mem-size"                                 : 22000,
             "nsapi.dns-response-wait-time"                  : 30000,
-            "nsapi.default-cellular-apn"                    : "\"phone\""
+            "nsapi.default-cellular-apn"                    : "\"j108.com.attz\""
         }
     }
 }

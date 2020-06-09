@@ -1,0 +1,5 @@
+{
+    "EP_ATLAS": {
+        "inherits": ["MCU_NRF52840"]
+}
+}

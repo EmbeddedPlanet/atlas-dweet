@@ -1,0 +1,11 @@
+^\.mbed$
+.vscode/
+mbed_settings.*
+BUILD/
+.build/
+mbed-os/
+easy-connect/
+mbed-http/
+.git/
+wifi-ism43362/
+wifi-ism43362.lib

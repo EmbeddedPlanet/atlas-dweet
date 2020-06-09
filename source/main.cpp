@@ -1,8 +1,58 @@
 #include "mbed.h"
 #include "network-helper.h"
 #include "http_request.h"
+#include "atlas_source/atlas.h"
+#include "mbed_trace.h"
+#include "trace_helper.h"
+
+//#define MBED_CONF_TARGET_DEFAULT_ADC_VREF 3.3
+//#define MBED_TRACE_MAX_LEVEL TRACE_LEVEL_DEBUG
+//#define MBED_CONF_MBED_TRACE_ENABLE 1
+
 Timeout watchdog;
-DigitalOut status_led(PIN_NAME_LED_RED);
+DigitalOut status_led(LED1);
+
+//static rtos::Mutex trace_mutex;
+
+// #if MBED_CONF_MBED_TRACE_ENABLE
+// static void trace_wait()
+// {
+//     trace_mutex.lock();
+// }
+
+// static void trace_release()
+// {
+//     trace_mutex.unlock();
+// }
+
+// static char time_st[50];
+
+// static char* trace_time(size_t ss)
+// {
+//     snprintf(time_st, 49, "[%08llums]", Kernel::get_ms_count());
+//     return time_st;
+// }
+
+// static void trace_open()
+// {
+//     mbed_trace_init();
+//     mbed_trace_prefix_function_set( &trace_time );
+
+//     mbed_trace_mutex_wait_function_set(trace_wait);
+//     mbed_trace_mutex_release_function_set(trace_release);
+
+//     mbed_cellular_trace::mutex_wait_function_set(trace_wait);
+//     mbed_cellular_trace::mutex_release_function_set(trace_release);
+// }
+
+// static void trace_close()
+// {
+//     mbed_cellular_trace::mutex_wait_function_set(NULL);
+//     mbed_cellular_trace::mutex_release_function_set(NULL);
+
+//     mbed_trace_free();
+// }
+//#endif // #if MBED_CONF_MBED_TRACE_ENABLE
 float getTemp(void)
 {
     static float temp = 0;
@@ -23,6 +73,15 @@ void system_reset_callback(void)
     system_reset();
 }
 int main() {
+
+    ThisThread::sleep_for(2000);
+
+    setup_trace();
+
+    mbed_trace_config_set(TRACE_ACTIVE_LEVEL_DEBUG);
+
+    init_atlas();
+
    //get nrf52840 MAC adderes
     uint32_t device_address = NRF_FICR->DEVICEADDR[0];
 
@@ -45,7 +104,7 @@ int main() {
     }
 
     //set watchdog to reset for unrecoverable network failure
-     watchdog.attach(&system_reset_callback, 30.0);
+     watchdog.attach(&system_reset_callback, 120.0);
      status_led = 1;
     while(1) {
         // Create a TCP socket
@@ -107,7 +166,26 @@ int main() {
             ThisThread::sleep_for(100);
         }
         ThisThread::sleep_for(2000);
-         watchdog.attach(&system_reset_callback, 30.0);
+         watchdog.attach(&system_reset_callback, 120.0);
     }
     wait(osWaitForever);
+//     #if MBED_CONF_MBED_TRACE_ENABLE
+//     trace_close();
+// #else
+//    // dot_thread.terminate();
+// #endif // #if MBED_CONF_MBED_TRACE_ENABLE
 }
+
+/*
+
+
+
+,
+            "target.printf_lib": "minimal-printf",
+            "platform.minimal-printf-enable-floating-point": true,
+            "platform.minimal-printf-set-floating-point-max-decimals": 6,
+            "platform.minimal-printf-enable-64-bit": false
+
+
+
+            */

@@ -28,6 +28,9 @@ NetworkInterface *connect_to_default_network_interface() {
 
     printf("[NWKH] Connected to the network\n");
     printf("[NWKH] IP address: %s\n", network->get_ip_address());
+    // SocketAddress *socket_address;
+    // network->get_ip_address(socket_address);
+    // printf("IP ADDRESS: %s\n", socket_address->get_ip_address());
     return network;
 }
 
