@@ -5,6 +5,7 @@
 #include "mbed_trace.h"
 #include "trace_helper.h"
 #include "USBSerial.h"
+#include "ThermistorNTC.h"
 
 
 //#define MBED_CONF_TARGET_DEFAULT_ADC_VREF 3.3
@@ -13,6 +14,10 @@
 
 Timeout watchdog;
 DigitalOut status_led(LED1);
+
+AnalogIn temp(TEMP_SENSE,3.3);
+ep::ResistorDivider rdiv(temp,10000.0,ep::ResistorDivider::UnknownVal,3.3);
+ep::ThermistorNTC ntc(rdiv, 10000.0f, 3380.0f, 10000.0f,1);
 
 //Thread usb_console_thread;
 //EventQueue usb_console_queue(32 * EVENTS_EVENT_SIZE);
@@ -75,8 +80,8 @@ void handle_usb_console()
 float getTemp(void)
 {
     static float temp = 0;
-    temp = temp + 0.1;
-    if(temp >= 100)temp=0;
+        temp = ntc.get_temperature();
+        printf("temperature: %2.3f\n\r", temp);
     return temp;
 }
 void dump_response(HttpResponse* res) {
@@ -99,7 +104,7 @@ int main() {
     handle_usb_console();
 
     
-    ThisThread::sleep_for(3000);
+    //ThisThread::sleep_for(3000);
 
     setup_trace();
 
