@@ -4,6 +4,8 @@
 #include "atlas_source/atlas.h"
 #include "mbed_trace.h"
 #include "trace_helper.h"
+#include "USBSerial.h"
+
 
 //#define MBED_CONF_TARGET_DEFAULT_ADC_VREF 3.3
 //#define MBED_TRACE_MAX_LEVEL TRACE_LEVEL_DEBUG
@@ -11,6 +13,23 @@
 
 Timeout watchdog;
 DigitalOut status_led(LED1);
+
+//Thread usb_console_thread;
+//EventQueue usb_console_queue(32 * EVENTS_EVENT_SIZE);
+
+static USBSerial console(true);
+FileHandle *mbed::mbed_override_console(int)
+{
+    return &console;
+}
+
+void handle_usb_console()
+{
+    // Wait for USB to connect
+    console.connect();
+    console.wait_ready();
+    //while (true) {}
+}
 
 //static rtos::Mutex trace_mutex;
 
@@ -74,13 +93,36 @@ void system_reset_callback(void)
 }
 int main() {
 
-    ThisThread::sleep_for(2000);
+
+    //usb_console_thread.start(&handle_usb_console);
+
+    handle_usb_console();
+
+    
+    ThisThread::sleep_for(3000);
 
     setup_trace();
 
     mbed_trace_config_set(TRACE_ACTIVE_LEVEL_DEBUG);
 
     init_atlas();
+
+    {
+        gpio_t gpio_CELL_ON_OFF;
+        gpio_t gpio_PWR_MON;
+        volatile int read_pwr_mon_gpio = 0;
+
+        gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
+        read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
+
+        // if(!(gpio_read(&gpio_PWR_MON)))
+        // {
+            gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
+            gpio_write(&gpio_CELL_ON_OFF, 1);
+            ThisThread::sleep_for(6000);
+            gpio_write(&gpio_CELL_ON_OFF, 0);
+        // {
+    }
 
    //get nrf52840 MAC adderes
     uint32_t device_address = NRF_FICR->DEVICEADDR[0];
@@ -174,7 +216,10 @@ int main() {
 // #else
 //    // dot_thread.terminate();
 // #endif // #if MBED_CONF_MBED_TRACE_ENABLE
-}
+ }
+
+//             "target.mbed_app_start": "0x1000",
+//             "target.mbed_app_size": "0xDF000"
 
 /*
 

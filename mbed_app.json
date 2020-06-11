@@ -2,6 +2,10 @@
     "config": {
         "main-stack-size": {
             "value": 8192
+        },
+        "ram-start": {
+            "macro": "MBED_RAM_START",
+            "value": "0x20000008"
         }
         
     },
@@ -25,9 +29,7 @@
             "nsapi.default-wifi-ssid": "\"SSID\"",
             "nsapi.default-wifi-password": "\"Password\"",
             "cellular.debug-at": true
-        },
-        "DISCO_L475VG_IOT01A": {
-            "target.network-default-interface-type" : "WIFI"
+
         },
         "EP_ATLAS": {
             "drivers.uart-serial-rxbuf-size"                : 1024,
@@ -39,7 +41,7 @@
             "lwip.ethernet-enabled"                         : false,
             "lwip.mem-size"                                 : 22000,
             "nsapi.dns-response-wait-time"                  : 30000,
-            "nsapi.default-cellular-apn"                    : "\"j108.com.attz\""
+            "nsapi.default-cellular-apn"                    : "\"J108.com.attz\""
         }
     }
 }
