@@ -112,22 +112,22 @@ int main() {
 
     init_atlas();
 
-    {
-        gpio_t gpio_CELL_ON_OFF;
-        gpio_t gpio_PWR_MON;
-        volatile int read_pwr_mon_gpio = 0;
+    // {
+    //     gpio_t gpio_CELL_ON_OFF;
+    //     gpio_t gpio_PWR_MON;
+    //     volatile int read_pwr_mon_gpio = 0;
 
-        gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
-        read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
+    //     gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
+    //     read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
 
-        // if(!(gpio_read(&gpio_PWR_MON)))
-        // {
-            gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
-            gpio_write(&gpio_CELL_ON_OFF, 1);
-            ThisThread::sleep_for(6000);
-            gpio_write(&gpio_CELL_ON_OFF, 0);
-        // {
-    }
+    //     // if(!(gpio_read(&gpio_PWR_MON)))
+    //     // {
+    //         gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
+    //         gpio_write(&gpio_CELL_ON_OFF, 1);
+    //         ThisThread::sleep_for(6000);
+    //         gpio_write(&gpio_CELL_ON_OFF, 0);
+    //     // {
+    // }
 
    //get nrf52840 MAC adderes
     uint32_t device_address = NRF_FICR->DEVICEADDR[0];
