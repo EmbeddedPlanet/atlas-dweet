@@ -130,19 +130,24 @@ nsapi_error_t ONBOARD_TELIT_ME310::init()
 void ONBOARD_TELIT_ME310::press_power_button(int time_ms)
 {
     gpio_t gpio_CELL_ON_OFF;
-    gpio_t gpio_PWR_MON;
-    volatile int read_pwr_mon_gpio = 0;
+    //gpio_t gpio_PWR_MON;
+    // volatile int read_pwr_mon_gpio = 0;
 
-    gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
-    read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
+    // gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
+    // read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
 
-   if(!(gpio_read(&gpio_PWR_MON)))
-  {
-        gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
-        gpio_write(&gpio_CELL_ON_OFF, 1);
-        thread_sleep_for(time_ms);
-        gpio_write(&gpio_CELL_ON_OFF, 0);
-    }
+//    if(!(gpio_read(&gpio_PWR_MON)))
+//   {
+//         gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
+//         gpio_write(&gpio_CELL_ON_OFF, 1);
+//         thread_sleep_for(time_ms);
+//         gpio_write(&gpio_CELL_ON_OFF, 0);
+//     }
+
+gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
+gpio_write(&gpio_CELL_ON_OFF, 1);
+
+
 
 //     DigitalIn pwr_mon(PIN_NAME_CELL_PWRMON);
 //     DigitalInOut cell_on_off(P0_31,PIN_INPUT,PullNone,1);
