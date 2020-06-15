@@ -28,7 +28,8 @@
             "nsapi.default-wifi-security": "WPA_WPA2",
             "nsapi.default-wifi-ssid": "\"SSID\"",
             "nsapi.default-wifi-password": "\"Password\"",
-            "cellular.debug-at": true
+            "cellular.debug-at": true,
+            "cellular.clear-on-connect": true
 
         },
         "EP_ATLAS": {
@@ -41,7 +42,9 @@
             "lwip.ethernet-enabled"                         : false,
             "lwip.mem-size"                                 : 22000,
             "nsapi.dns-response-wait-time"                  : 30000,
-            "nsapi.default-cellular-apn"                    : "\"J108.com.attz\""
+            "nsapi.default-cellular-apn"                    : "\"J108.com.attz\"",
+            "target.mbed_app_start": "0x1000",
+            "target.mbed_app_size": "0xDF000"
         }
     }
 }
