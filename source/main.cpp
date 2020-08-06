@@ -166,12 +166,4 @@ int main() {
 
 
 
-,
-            "target.printf_lib": "minimal-printf",
-            "platform.minimal-printf-enable-floating-point": true,
-            "platform.minimal-printf-set-floating-point-max-decimals": 6,
-            "platform.minimal-printf-enable-64-bit": false
 
-
-
-            */
