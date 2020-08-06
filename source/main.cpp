@@ -8,9 +8,7 @@
 #include "ThermistorNTC.h"
 
 
-//#define MBED_CONF_TARGET_DEFAULT_ADC_VREF 3.3
-//#define MBED_TRACE_MAX_LEVEL TRACE_LEVEL_DEBUG
-//#define MBED_CONF_MBED_TRACE_ENABLE 1
+
 
 Timeout watchdog;
 DigitalOut status_led(LED1);
@@ -19,8 +17,6 @@ AnalogIn temp(TEMP_SENSE,3.3);
 ep::ResistorDivider rdiv(temp,10000.0,ep::ResistorDivider::UnknownVal,3.3);
 ep::ThermistorNTC ntc(rdiv, 10000.0f, 3380.0f, 10000.0f,1);
 
-//Thread usb_console_thread;
-//EventQueue usb_console_queue(32 * EVENTS_EVENT_SIZE);
 
 static USBSerial console(true);
 FileHandle *mbed::mbed_override_console(int)
@@ -36,47 +32,7 @@ void handle_usb_console()
     //while (true) {}
 }
 
-//static rtos::Mutex trace_mutex;
 
-// #if MBED_CONF_MBED_TRACE_ENABLE
-// static void trace_wait()
-// {
-//     trace_mutex.lock();
-// }
-
-// static void trace_release()
-// {
-//     trace_mutex.unlock();
-// }
-
-// static char time_st[50];
-
-// static char* trace_time(size_t ss)
-// {
-//     snprintf(time_st, 49, "[%08llums]", Kernel::get_ms_count());
-//     return time_st;
-// }
-
-// static void trace_open()
-// {
-//     mbed_trace_init();
-//     mbed_trace_prefix_function_set( &trace_time );
-
-//     mbed_trace_mutex_wait_function_set(trace_wait);
-//     mbed_trace_mutex_release_function_set(trace_release);
-
-//     mbed_cellular_trace::mutex_wait_function_set(trace_wait);
-//     mbed_cellular_trace::mutex_release_function_set(trace_release);
-// }
-
-// static void trace_close()
-// {
-//     mbed_cellular_trace::mutex_wait_function_set(NULL);
-//     mbed_cellular_trace::mutex_release_function_set(NULL);
-
-//     mbed_trace_free();
-// }
-//#endif // #if MBED_CONF_MBED_TRACE_ENABLE
 float getTemp(void)
 {
     static float temp = 0;
@@ -103,6 +59,8 @@ int main() {
 
     handle_usb_console();
 
+    printf("Software Version 1.0.0\n\r");
+
     
     //ThisThread::sleep_for(3000);
 
@@ -112,22 +70,7 @@ int main() {
 
     init_atlas();
 
-    // {
-    //     gpio_t gpio_CELL_ON_OFF;
-    //     gpio_t gpio_PWR_MON;
-    //     volatile int read_pwr_mon_gpio = 0;
 
-    //     gpio_init_in(&gpio_PWR_MON, PIN_NAME_CELL_PWRMON);
-    //     read_pwr_mon_gpio = gpio_read(&gpio_PWR_MON);
-
-    //     // if(!(gpio_read(&gpio_PWR_MON)))
-    //     // {
-    //         gpio_init_out_ex(&gpio_CELL_ON_OFF, P0_31, 1);
-    //         gpio_write(&gpio_CELL_ON_OFF, 1);
-    //         ThisThread::sleep_for(6000);
-    //         gpio_write(&gpio_CELL_ON_OFF, 0);
-    //     // {
-    // }
 
    //get nrf52840 MAC adderes
     uint32_t device_address = NRF_FICR->DEVICEADDR[0];
@@ -216,17 +159,10 @@ int main() {
          watchdog.attach(&system_reset_callback, 120.0);
     }
     wait(osWaitForever);
-//     #if MBED_CONF_MBED_TRACE_ENABLE
-//     trace_close();
-// #else
-//    // dot_thread.terminate();
-// #endif // #if MBED_CONF_MBED_TRACE_ENABLE
+
  }
 
-//             "target.mbed_app_start": "0x1000",
-//             "target.mbed_app_size": "0xDF000"
 
-/*
 
 
 
