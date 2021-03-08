@@ -13,9 +13,12 @@
 Timeout watchdog;
 DigitalOut status_led(LED1);
 
-AnalogIn temp(TEMP_SENSE,3.3);
-ep::ResistorDivider rdiv(temp,10000.0,ep::ResistorDivider::UnknownVal,3.3);
-ep::ThermistorNTC ntc(rdiv, 10000.0f, 3380.0f, 10000.0f,1);
+AnalogIn temp(TEMP_SENSE);
+// AnalogIn temp(TEMP_SENSE,3.3);
+ep::ResistorDivider rdiv(&temp,10000.0,ep::ResistorDivider::UnknownVal,3.3);
+// ep::ResistorDivider rdiv(temp,10000.0,ep::ResistorDivider::UnknownVal,3.3);
+ep::ThermistorNTC ntc(&rdiv, 10000.0f, 3380.0f,1);
+// ep::ThermistorNTC ntc(&rdiv, 10000.0f, 3380.0f, 10000.0f,1);
 
 
 static USBSerial console(true);

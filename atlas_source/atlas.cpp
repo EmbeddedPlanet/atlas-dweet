@@ -1,6 +1,6 @@
 
 #include "mbed.h"
-#include "Atlas.h"
+#include "atlas.h"
 
 void init_atlas(void)
 {
